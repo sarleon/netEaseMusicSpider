@@ -3,6 +3,7 @@ import requests
 import re
 from bs4 import BeautifulSoup
 import json
+import get_comment_total
 class Music163Api:
     cookies={'appver':'1.5.0.75771'}
     headers={
@@ -24,6 +25,8 @@ class Music163Api:
     offset: 偏移数量，用于分页
     MUSIC_U: 意义不明(非必须参数)
     """
+
+
     def searching(self,song_name):
         cookies={'appver':'1.5.0.75771'}
         headers={
@@ -73,20 +76,16 @@ class Music163Api:
         #print page.content
 
         return  song_ids
-    def get_song_detail_bak(self,song_id):
+    def get_song_detail(self,song_id):
         data={
             'id':song_id,
             'ids':"["+str(song_id)+"]"
         }
-        url='http://music.163.com/api/song/detail/'
-        page=requests.post(url=url,data=data,cookies=self.cookies,headers=self.headers)
-
+        url='http://music.163.com/api/song/detail/?id='+str(song_id)+"&ids=["+str(song_id)+"]"
+        page=requests.get(url=url,data=data,cookies=self.cookies,headers=self.headers)
         print page.content
-    def get_song_detail(self,song_id):
-        data={
-            'id':song_id
-        }
-        url='http://music.163.com/api/playlist/detail?id='+str(song_id)
-        page=requests.get(url=url)
 
-        print page.content
+
+    def get_song_comments(self,song_id):
+        comment_num=get_comment_total.readEver(song_id)
+        print "评论数"+comment_num

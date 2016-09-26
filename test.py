@@ -5,7 +5,7 @@ def test2():
     apis.get_songs_of_artist(1071081)
 def test3():
     apis=Music163Api()
-    apis.get_song_detail(11362719)
+    apis.get_song_detail(426343036)
 
 
 if __name__=='__main__':
