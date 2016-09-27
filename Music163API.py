@@ -83,9 +83,15 @@ class Music163Api:
         }
         url='http://music.163.com/api/song/detail/?id='+str(song_id)+"&ids=["+str(song_id)+"]"
         page=requests.get(url=url,data=data,cookies=self.cookies,headers=self.headers)
-        print page.content
+        map_message=json.loads(page.content)
+        song_name= map_message['songs'][0]['name']
+        artist_name=map_message['songs'][0]['artists'][0]['name']
+        #print artist_name
+        #print song_name
+        return artist_name,song_name
 
 
     def get_song_comments(self,song_id):
         comment_num=get_comment_total.readEver(song_id)
-        print "评论数"+comment_num
+        #print "评论数"+comment_num
+        return comment_num
